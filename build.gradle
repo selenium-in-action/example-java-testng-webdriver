@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Example Java TestNG WebDriver Project',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.11'
+	compile 'org.seleniumhq.selenium:selenium-java:3.3.1'
+	compile 'org.assertj:assertj-core:2.1.0'
+}
+
+test {
+	testLogging {
+		events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+		exceptionFormat "full" // default is "short"
+	}
+
+	useTestNG {
+		useDefaultListeners = true
+		includeGroups project.hasProperty('testGroups') ? testGroups : ''
+	}
+}
